@@ -28,7 +28,7 @@ namespace GenericControllers
         {
             serviceCollection.AddControllers()
                 .ConfigureApplicationPartManager(apm => apm.FeatureProviders
-                    .Add(new GenericControllerFeatureProvider(new List<Type>
+                    .Add(new GenericControllerFeatureProvider(Action<GenericControllerOptions>
                     {
                         //                    typeof()
                     })));

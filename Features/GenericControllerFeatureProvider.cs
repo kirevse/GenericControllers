@@ -4,30 +4,35 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 
-public class GenericControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
+namespace GenericControllers.Features
 {
-    protected ICollection<Type> Types { get; }
-
-    public GenericControllerFeatureProvider(ICollection<Type> types)
+    public class GenericControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
     {
-        Types = types ?? throw new ArgumentNullException(nameof(types)); 
-    }
+        protected ICollection<GenericControllerConfiguration> GenericControllerConfigurations{ get; }
 
-    public void PopulateFeature(IEnumerable<ApplicationPart> applicationParts, ControllerFeature controllerFeature)
-    {
-        // This is designed to run after the default ControllerTypeProvider, 
-        // so the list of 'real' controllers has already been populated.
-        foreach (var entityType in Types)
+        public GenericControllerFeatureProvider(Action<ICollection<GenericControllerConfiguration>> genericControllerConfigurations)
         {
-            var typeName = entityType.Name + "Controller";
-            if (!controllerFeature.Controllers.Any(t => t.Name == typeName))
+            GenericControllerConfigurations =
+                (genericControllerConfigurations
+                    ?? throw new ArgumentNullException(nameof(genericControllerConfigurations))).Invoke();
+        }
+
+        public void PopulateFeature(IEnumerable<ApplicationPart> applicationParts, ControllerFeature controllerFeature)
+        {
+            // This is designed to run after the default ControllerTypeProvider, 
+            // so the list of 'real' controllers has already been populated.
+            foreach (var entityType in Types)
             {
-                // There's no 'real' controller for this entity, so add the generic version.
-                controllerFeature.Controllers
-                    .Add(typeof(GenericController<>)
-                        .MakeGenericType(entityType.AsType())
-                        .GetTypeInfo());
+                var typeName = entityType.Name + "Controller";
+                if (!controllerFeature.Controllers.Any(t => t.Name == typeName))
+                {
+                    // There's no 'real' controller for this entity, so add the generic version.
+                    controllerFeature.Controllers
+                        .Add(typeof(GenericController<>)
+                            .MakeGenericType(entityType.AsType())
+                            .GetTypeInfo());
+                }
             }
-        }        
+        }
     }
 }
