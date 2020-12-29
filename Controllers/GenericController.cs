@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 [ApiController]
 [Route("[controller]")]
-public class GenericController<TEntity> : ControllerBase
+public class GenericController<TModel> : ControllerBase where TModel : new()
 {
     protected ILogger Logger { get; }
 
@@ -16,6 +16,6 @@ public class GenericController<TEntity> : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(GetType().Name);
+        return Ok(new TModel());
     }
 }

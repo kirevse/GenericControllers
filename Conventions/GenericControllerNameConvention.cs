@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
+using System.Linq;
 
 namespace GenericControllers.Conventions
 {
@@ -7,9 +8,10 @@ namespace GenericControllers.Conventions
     {
         public void Apply(ControllerModel controllerModel)
         {
-            if (controllerModel.ControllerType.GetGenericTypeDefinition() == typeof(GenericController<>))
+            var controllerType = controllerModel.ControllerType;
+            if (controllerType.IsGenericType && controllerType.GetGenericTypeDefinition() == typeof(GenericController<>))
             {
-                controllerModel.ControllerName = controllerModel.ControllerType.GenericTypeArguments[0]?.Name;
+                controllerModel.ControllerName = controllerType.GenericTypeArguments.FirstOrDefault()?.Name;
             }
         }
     }
