@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 
@@ -8,31 +9,30 @@ namespace GenericControllers.Features
 {
     public class GenericControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
     {
-        protected ICollection<GenericControllerConfiguration> GenericControllerConfigurations{ get; }
+        protected GenericControllersOptions GenericControllersOptions{ get; }
 
-        public GenericControllerFeatureProvider(Action<ICollection<GenericControllerConfiguration>> genericControllerConfigurations)
+        public GenericControllerFeatureProvider(GenericControllersOptions genericControllersOptions)
         {
-            GenericControllerConfigurations =
-                (genericControllerConfigurations
-                    ?? throw new ArgumentNullException(nameof(genericControllerConfigurations))).Invoke();
+            GenericControllersOptions =
+                genericControllersOptions
+                    ?? throw new ArgumentNullException(nameof(genericControllersOptions));
         }
 
         public void PopulateFeature(IEnumerable<ApplicationPart> applicationParts, ControllerFeature controllerFeature)
         {
             // This is designed to run after the default ControllerTypeProvider, 
             // so the list of 'real' controllers has already been populated.
-            foreach (var entityType in Types)
-            {
-                var typeName = entityType.Name + "Controller";
-                if (!controllerFeature.Controllers.Any(t => t.Name == typeName))
-                {
-                    // There's no 'real' controller for this entity, so add the generic version.
-                    controllerFeature.Controllers
-                        .Add(typeof(GenericController<>)
-                            .MakeGenericType(entityType.AsType())
-                            .GetTypeInfo());
-                }
-            }
+            var controllerTypeInfos = controllerFeature.Controllers;
+            GenericControllersOptions.GenericControllerConfigurations
+                .Where(gcc => !controllerTypeInfos.Any(t => t.Name == gcc.Name))
+                .Aggregate(controllerTypeInfos, (cts, gcc) => 
+                    {
+                        cts.Add(
+                            gcc.ControllerType
+                           .MakeGenericType(gcc.TypeArguments.ToArray())
+                           .GetTypeInfo());
+                        return cts;
+                    });
         }
     }
 }

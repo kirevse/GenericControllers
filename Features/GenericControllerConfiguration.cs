@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GenericControllers.Features
 {
@@ -6,6 +7,6 @@ namespace GenericControllers.Features
     {
         public string Name { get; set; }
         public Type ControllerType { get; set; }
-        public Type ModelType { get; set; }
+        public IList<Type> TypeArguments { get; set; }
     }
 }

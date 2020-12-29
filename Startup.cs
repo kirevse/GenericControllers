@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using GenericControllers.Controllers;
+using GenericControllers.Extensions;
+using GenericControllers.Features;
+using GenericControllers.Models;
 
 namespace GenericControllers
 {
@@ -26,12 +30,15 @@ namespace GenericControllers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddControllers()
-                .ConfigureApplicationPartManager(apm => apm.FeatureProviders
-                    .Add(new GenericControllerFeatureProvider(Action<GenericControllerOptions>
-                    {
-                        //                    typeof()
-                    })));
+            serviceCollection
+                .AddControllers(moa =>
+                {
+                    moa.AddGenericControllerNameConvention();
+                })
+                .AddGenericControllers(new GenericControllersOptions()
+                        .AddGenericController("CompanyController", typeof(GenericController<>), new List<Type> { typeof(Company) })
+                        .AddGenericController("EmployeeController", typeof(GenericController<>), new List<Type> { typeof(Employee) })
+                );
             serviceCollection.AddSwaggerGen(sgo =>
             {
                 sgo.SwaggerDoc("v1",
