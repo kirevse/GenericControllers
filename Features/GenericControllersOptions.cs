@@ -7,11 +7,10 @@ namespace GenericControllers.Features
     {
         public IList<GenericControllerConfiguration> GenericControllerConfigurations { get; } = new List<GenericControllerConfiguration>();
 
-        public GenericControllersOptions AddGenericController(string name, Type type, IList<Type> typeArguments)
+        public GenericControllersOptions AddGenericController(Type type, IList<Type> typeArguments)
         {
             GenericControllerConfigurations.Add(new GenericControllerConfiguration
             {
-                Name = name,
                 ControllerType = type,
                 TypeArguments = typeArguments
             });

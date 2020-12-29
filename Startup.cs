@@ -36,8 +36,8 @@ namespace GenericControllers
                     moa.AddGenericControllerNameConvention();
                 })
                 .AddGenericControllers(new GenericControllersOptions()
-                        .AddGenericController("CompanyController", typeof(GenericController<>), new List<Type> { typeof(Company) })
-                        .AddGenericController("EmployeeController", typeof(GenericController<>), new List<Type> { typeof(Employee) })
+                    .AddGenericController(typeof(GenericController<>), new List<Type> { typeof(Company) })
+                    .AddGenericController(typeof(GenericController<>), new List<Type> { typeof(Employee) })
                 );
             serviceCollection.AddSwaggerGen(sgo =>
             {
