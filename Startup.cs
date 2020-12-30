@@ -23,7 +23,7 @@ namespace GenericControllers
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection
-                .AddControllers(moa => moa.AddGenericControllerNameConvention())
+                .AddControllers()
                 .AddGenericControllers(new GenericControllersOptions()
                     .AddController<GenericController<Company>>()
                     .AddController<GenericController<Employee>>()
