@@ -9,7 +9,7 @@ namespace GenericControllers.Conventions
         public void Apply(ControllerModel controllerModel)
         {
             var controllerType = controllerModel.ControllerType;
-            if (controllerType.IsGenericType && controllerType.GetGenericTypeDefinition() == typeof(GenericController<>))
+            if (controllerType.IsGenericType)
             {
                 controllerModel.ControllerName = controllerType.GenericTypeArguments.FirstOrDefault()?.Name;
             }
