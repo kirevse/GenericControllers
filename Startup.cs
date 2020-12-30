@@ -31,13 +31,10 @@ namespace GenericControllers
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection
-                .AddControllers(moa =>
-                {
-                    moa.AddGenericControllerNameConvention();
-                })
+                .AddControllers(moa => moa.AddGenericControllerNameConvention())
                 .AddGenericControllers(new GenericControllersOptions()
-                    .AddGenericController(typeof(GenericController<>), new List<Type> { typeof(Company) })
-                    .AddGenericController(typeof(GenericController<>), new List<Type> { typeof(Employee) })
+                    .AddController(typeof(GenericController<>), new List<Type> { typeof(Company) })
+                    .AddController(typeof(GenericController<>), new List<Type> { typeof(Employee) })
                 );
             serviceCollection.AddSwaggerGen(sgo =>
             {
