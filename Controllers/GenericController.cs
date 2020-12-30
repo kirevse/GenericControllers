@@ -16,6 +16,7 @@ public class GenericController<TModel> : ControllerBase where TModel : new()
     [HttpGet]
     public IActionResult Get()
     {
+        Logger.LogInformation("Processing GET");
         return Ok(new TModel());
     }
 }

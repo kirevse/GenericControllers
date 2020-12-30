@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using GenericControllers.Features;
 using GenericControllers.Conventions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

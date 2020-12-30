@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using GenericControllers.Features;
 using Microsoft.Extensions.DependencyInjection;
+using GenericControllers.Features;
 
 namespace GenericControllers.Extensions
 {

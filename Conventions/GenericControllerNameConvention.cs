@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace GenericControllers.Conventions
 {
