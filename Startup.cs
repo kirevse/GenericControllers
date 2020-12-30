@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,8 +25,8 @@ namespace GenericControllers
             serviceCollection
                 .AddControllers(moa => moa.AddGenericControllerNameConvention())
                 .AddGenericControllers(new GenericControllersOptions()
-                    .AddController(typeof(GenericController<>), new List<Type> { typeof(Company) })
-                    .AddController(typeof(GenericController<>), new List<Type> { typeof(Employee) })
+                    .AddController<GenericController<Company>>()
+                    .AddController<GenericController<Employee>>()
                 );
             serviceCollection.AddSwaggerGen(sgo =>
             {
