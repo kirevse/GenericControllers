@@ -26,7 +26,7 @@ namespace GenericControllers.Features
                     !controllerTypeInfos.Any(ti => $"{t.GenericTypeArguments.FirstOrDefault()?.Name}Controller".Equals(ti.Name)))
                 .Aggregate(controllerTypeInfos, (cts, t) =>
                     {
-                        cts.Add(t.MakeGenericType(t.GenericTypeArguments).GetTypeInfo());
+                        cts.Add(t.GetTypeInfo());
                         return cts;
                     });
         }
