@@ -24,10 +24,9 @@ namespace GenericControllers
         {
             serviceCollection
                 .AddControllers()
-                .AddGenericControllers(new GenericControllersOptions()
+                .AddGenericControllers(gco => gco
                     .AddController<GenericController<Company>>()
-                    .AddController<GenericController<Employee>>()
-                );
+                    .AddController<GenericController<Employee>>());
             serviceCollection.AddSwaggerGen(sgo =>
             {
                 sgo.SwaggerDoc("v1",
