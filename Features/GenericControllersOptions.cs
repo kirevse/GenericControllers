@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GenericControllers.Features
 {
-    public class GenericControllersOptions
+    internal class GenericControllersOptions : IGenericControllersOptions
     {
-        public IList<Type> ControllerTypes { get; } = new List<Type>();
+        public ISet<Type> ControllerTypes { get; } = new HashSet<Type>();
 
-        public GenericControllersOptions AddController<TController>()
+        public IGenericControllersOptions AddController<TController>()
             where TController : ControllerBase
         {
             var controllerType = typeof(TController);

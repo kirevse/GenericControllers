@@ -7,7 +7,7 @@ namespace GenericControllers.Extensions
 {
     public static class MvcBuilderExtensions
     {
-        public static IMvcBuilder AddGenericControllers(this IMvcBuilder mvcBuilder, Action<GenericControllersOptions> genericControllersOptionsAction) =>
+        public static IMvcBuilder AddGenericControllers(this IMvcBuilder mvcBuilder, Action<IGenericControllersOptions> genericControllersOptionsAction) =>
             mvcBuilder
                 .AddMvcOptions(moa => moa.Conventions.Add(new GenericControllerNameConvention()))
                 .ConfigureApplicationPartManager(apm => apm.FeatureProviders

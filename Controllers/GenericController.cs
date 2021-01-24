@@ -8,10 +8,8 @@ public class GenericController<TModel> : ControllerBase where TModel : new()
 {
     protected ILogger Logger { get; }
 
-    public GenericController(ILoggerFactory loggerFactory)
-    {
+    public GenericController(ILoggerFactory loggerFactory) =>
         Logger = (loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory))).CreateLogger(GetType());
-    }
 
     [HttpGet]
     public IActionResult Get()
